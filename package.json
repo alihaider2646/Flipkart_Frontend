@@ -2,7 +2,7 @@
   "name": "flipkart-clone",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/alihaider2646/flipkart_frontend.git",
+  "homepage": "https://github.com/alihaider2646/Flipkart_Frontend.git",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
