@@ -10,8 +10,9 @@ import {
     DropdownMenu
 } from '../MaterialUI';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, signout } from '../../actions';
+import { login, signout, getCartItems, signup as _signup } from '../../actions';
 import usePasswordToggle from '../../hooks/usePasswordToggle';
+import Cart from '../UI/Cart';
 
 const Header = (props) => {
     const [PasswordInputType, ToggleIcon] = usePasswordToggle();
@@ -23,17 +24,31 @@ const Header = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const auth = useSelector(state => state.auth);
+    const cart = useSelector(state => state.cart);
     const dispatch = useDispatch();
 
-    // console.log(auth);
+    console.log("cart : ", cart);
+
+    const userSignup = () => {
+        console.log({ firstName, lastName, email, password });
+        const user = { firstName, lastName, email, password };
+        if (firstName === "" || lastName === "" || email === "" || password === "") {
+            return;
+        }
+        dispatch(_signup(user));
+    };
 
     const userLogin = () => {
-        dispatch(login({ email, password }));
-    }
+        if (signup) {
+            userSignup();
+        } else {
+            dispatch(login({ email, password }));
+        }
+    };
 
     const logout = () => {
         dispatch(signout())
-    }
+    };
 
     useEffect(() => {
         if (auth.authenticate) {
@@ -103,8 +118,7 @@ const Header = (props) => {
         <div className="header">
             <Modal
                 visible={loginModal}
-                onClose={() => setLoginModal(false)}
-            >
+                onClose={() => setLoginModal(false)}>
                 <div className="authContainer">
                     <div className="row">
                         <div className="leftspace">
@@ -146,7 +160,7 @@ const Header = (props) => {
                                     <span className="password_toggle_icon">{ToggleIcon}</span>
                                 </div>
                                 <MaterialButton
-                                    title="Login"
+                                    title={signup ? "Register" : "Login"}
                                     bgColor="#fb641b"
                                     textColor="#ffffff"
                                     style={{ margin: "40px 0 20px 0" }}
@@ -219,7 +233,7 @@ const Header = (props) => {
                     />
                     <div>
                         <a href={`/cart`} className="cart" style={{ textDecoration: "none" }}>
-                            <IoIosCart />
+                            <Cart count={Object.keys(cart.cartItems).length} />
                             <span style={{ margin: '0 10px' }}>Cart</span>
                         </a>
                     </div>

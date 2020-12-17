@@ -1,5 +1,6 @@
 import { cartConstants, userConstants } from "./constants";
 import axios from "../helpers/axios";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 export const addAddress = (payload) => {
     return async (dispatch) => {
@@ -108,6 +109,8 @@ export const getOrders = () => {
         }
     };
 };
+
+// single order with complete info and delivery location
 export const getOrder = (payload) => {
     return async (dispatch) => {
         try {

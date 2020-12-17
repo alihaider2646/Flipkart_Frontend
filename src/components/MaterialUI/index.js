@@ -24,6 +24,8 @@ const Modal = (props) => {
 
 const MaterialInput = (props) => {
     const [focus, setFocus] = useState(false);
+    const [touch, setTouch] = useState(false);
+
     return (
         <div className="materialInput">
             <label className={`label ${focus ? 'focus' : ''}`} style={{
@@ -39,17 +41,21 @@ const MaterialInput = (props) => {
                     onChange={props.onChange}
                     onFocus={(e) => {
                         setFocus(true)
+                        setTouch(true)
                     }}
                     onBlur={(e) => {
                         if (e.target.value === "") {
                             setFocus(false)
+                        } else {
+                            setTouch(false)
                         }
                     }} />
-                {
-                    props.rightElement ? props.rightElement : null
-                }
+                {props.rightElement ? props.rightElement : null}
             </div>
-        </div>
+            {touch && (
+                <div style={{ fontSize: '10px', color: 'red', fontWeight: 500 }}>
+                    {`${props.label} is Required`}</div>)}
+        </div> 
     )
 }
 
@@ -63,10 +69,9 @@ const MaterialButton = (props) => {
                 className="materialButton"
                 style={{
                     backgroundColor: props.bgColor,
-                    color: props.textColor
-                }}
-                onClick={onClick}
-            >
+                    color: props.textColor,
+                    fontSize: props.fontSize
+                }} onClick={onClick}>
                 {props.icon && props.icon}
                 {props.title && props.title}
             </button>
